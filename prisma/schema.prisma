@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @unique @default(cuid())
+  provider_id     String    @unique
+  username        String?
+  hashed_password String?
+  avatar_url      String
+  session         Session[]
+
+  @@map("user")
+}
+
+model Session {
+  id           String @id @unique
+  user_id      String
+  expires      BigInt
+  idle_expires BigInt
+  user         User   @relation(references: [id], fields: [user_id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@map("session")
+}
+
+model MechConfig {
+  id         String  @id @unique @default(cuid())
+  archived   Boolean @default(false)
+  name       String
+  background BackgroundKey
+  mech     Mech  @relation(fields: [mechId], references: [id], onDelete: Cascade)
+  mechId   String
+}
+
+model Mech {
+  id               String   @id @unique @default(cuid())
+  archived         Boolean  @default(false)
+  chain           Chain   @relation(fields: [chainId], references: [id], onDelete: Cascade)
+  orbitRadius      Float
+  orbitSpeed       Float
+  children         Mech[] @relation("parental")
+  parentalRelation Mech[] @relation("parental")
+
+  MechConfig MechConfig[]
+  chainId     String
+}
+
+model Chain {
+  id         String   @id @unique @default(cuid())
+  archived   Boolean  @default(false)
+  name       String
+  radius     Float
+  material   Material @relation(fields: [materialId], references: [id], onDelete: Cascade)
+  Mech     Mech[]
+  materialId String
+}
+
+enum BackgroundKey {
+  PURPLE
+  GREEN
+}
+
+enum MaterialKey {
+  CORE
+  MARBLE
+}
+
+model Material {
+  id         String   @id @unique @default(cuid())
+  archived   Boolean  @default(false)
+  key        MaterialKey
+  offsetRate Float
+  scale      Float
+  Chain     Chain[]
+}
