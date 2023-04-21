@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
-import { mechs, type Mech } from '$lib/db'
+import type { Mech } from '@prisma/client'
 import { createTRPCRouter, privateProcedure, publicProcedure } from '~/server/api/trpc'
 
 // import { Ratelimit } from '@upstash/ratelimit' // for deno: see above
@@ -19,7 +19,7 @@ const addUserDataToMechs = async (Mechs: Mech[]) => {
 
 export const mechsRouter = createTRPCRouter({
   getById: publicProcedure.input(z.object({ id: z.string() })).query(async ({ ctx, input }) => {
-    const queryMechs = await ctx.db.select().from(Mechs).where(eq(Mechs.id, input.id)).limit(1)
+    const queryMechs = await ctx.db.select().from(mech).where(eq(mech.id, input.id)).limit(1)
 
     if (!queryMechs[0]) throw new TRPCError({ code: 'NOT_FOUND' })
 
@@ -27,7 +27,7 @@ export const mechsRouter = createTRPCRouter({
   }),
 
   getAll: publicProcedure.query(async ({ ctx }) => {
-    const queryMechs = await ctx.db.select().from(mechs).limit(100).orderBy(desc(mechs.createdAt))
+    const queryMechs = await ctx.db.select().from(mech).limit(100).orderBy(desc(mech.createdAt))
 
     return addUserDataToMechs(queryMechs)
   }),
@@ -41,10 +41,10 @@ export const mechsRouter = createTRPCRouter({
     .query(({ ctx, input }) =>
       ctx.db
         .select()
-        .from(mechs)
-        .where(eq(mechs.authorId, input.userId))
+        .from(mech)
+        .where(eq(mech.authorId, input.userId))
         .limit(100)
-        .orderBy(desc(mechs.createdAt))
+        .orderBy(desc(mech.createdAt))
         .then(addUserDataToMechs)
     ),
 
@@ -61,7 +61,7 @@ export const mechsRouter = createTRPCRouter({
       // if (!success) throw new TRPCError({ code: 'TOO_MANY_REQUESTS' })
 
       const post = await ctx.db
-        .insert(mechs)
+        .insert(mech)
         .values({
           id: undefined,
           authorId,
