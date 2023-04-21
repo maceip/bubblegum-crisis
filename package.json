@@ -3,13 +3,19 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
+		"clean": "yarn rimraf artifacts cache typechain-types",
+		"build:contracts": "npx hardhat compile",
+		"deploy": "hardhat deploy --network",
 		"dev": "vite dev --host",
-		"build": "vite build",
+		"build": "vite build && npx hardhat compile",
 		"preview": "vite preview",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json && check:prettier",
+		"check:prettier": "prettier '**/*.{sol,js,ts,tsx,json}' --ignore-path .gitignore --list-different",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"fix:prettier": "prettier '**/*.{sol,js,ts,tsx,json}' --ignore-path .gitignore --write",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
-		"format": "prettier --plugin-search-dir . --write ."
+		"format": "prettier --plugin-search-dir . --write .",
+		"coverage": "hardhat coverage"
 	},
 	"devDependencies": {
 		"@paralleldrive/cuid2": "^2.2.0",
@@ -48,10 +54,12 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@nomicfoundation/hardhat-toolbox": "^2.0.2",
 		"@prisma/client": "4.13.0",
 		"@tanstack/svelte-query": "^4.29.1",
 		"@teamhanko/hanko-elements": "0.4.0-alpha",
 		"@trpc/server": "10.21.1-alpha.2",
+		"hardhat": "^2.14.0",
 		"superjson": "^1.12.3",
 		"svelte-navigator": "^3.2.2",
 		"trpc-svelte-query-adapter": "^2.1.0",
