@@ -6,30 +6,6 @@
 	export let isDarkMode: boolean;
 </script>
 
-<div class="relative flex h-full w-full dark:text-white select-none">
-	{#if isDarkMode}
-		<img
-			class="absolute left-[40px] top-1/4 pointer-events-none w-[250px] sm:w-[300px] md:w-[500px]"
-			src="/images/logo-fill.svg"
-		/>
-	{:else}
-		<img
-			class="absolute left-[40px] top-1/4 pointer-events-none w-[250px] sm:w-[300px] md:w-[500px]"
-			src="/images/logo-black-fill.svg"
-		/>
-	{/if}
-
-	<!-- {#if isDarkMode}
-		<img
-			class="absolute left-[40px] md:top-[calc(0.25*100vh+200px)] md:top-[calc(0.25*100vh+200px)] top-[calc(0.25*100vh+100px)] pointer-events-none w-[150px] sm:w-[200px] md:w-[400px]"
-			src="/images/moto-fill.svg"
-		/>
-	{:else}
-		<img
-			class="absolute left-[40px] md:top-[calc(0.25*100vh+200px)] md:top-[calc(0.25*100vh+200px)] top-[calc(0.25*100vh+100px)] pointer-events-none w-[150px] sm:w-[200px] md:w-[400px]"
-			src="/images/moto-black-fill.svg"
-		/>
-	{/if} -->
 
 	<div class="absolute h-full w-full">
 		<Canvas>
@@ -47,43 +23,33 @@
 				<Orb position={[-20, -2, 6]} materialIndex={5} />
 			</T.Group>
 		</Canvas>
+
+	{#if isDarkMode}
+		<span
+			class="absolute text-[60pt] font-bold  left-[45px] top-[calc(100vh*0.25+5px)] w-[250px] sm:w-[300px] md:w-[500px] pointer-events-none">
+			重甲機神
+		</span>
+	{:else}
+	<span class="absolute text-[60pt] font-bold  left-[45px] top-[calc(100vh*0.25+5px)] w-[250px] sm:w-[300px] md:w-[500px] pointer-events-none">
+			重甲機神
+		</span>
+		{/if}
+		{#if isDarkMode}
+		<span
+			class="absolute text-[59pt] left-[45px] top-[calc(100vh*0.25+5px)] w-[250px] sm:w-[300px] md:w-[500px] pointer-events-none text-black">
+			重甲機神
+		</span>
+	{:else}
+	<span
+			class="absolute text-[59pt] left-[45px] top-[calc(100vh*0.25+5px)] w-[250px] sm:w-[300px] md:w-[500px] pointer-events-none text-white">
+		重甲機神
+		</span>
+	{/if}
+
+
+
+
 	</div>
-	{#if isDarkMode}
-		<img
-			class="absolute left-[45px] top-[calc(100vh*0.25+5px)] w-[250px] sm:w-[300px] md:w-[500px] pointer-events-none"
-			src="/images/logo-stroke.svg"
-		/>
-	{:else}
-		<img
-			class="absolute left-[45px] top-[calc(100vh*0.25+5px)] w-[250px] sm:w-[300px] md:w-[500px] pointer-events-none"
-			src="/images/logo-black-stroke.svg"
-		/>
-	{/if}
-
-	<!-- {#if isDarkMode}
-		<img
-			class="absolute left-[40px] md:top-[calc(0.25*100vh+200px)] md:top-[calc(0.25*100vh+200px)] top-[calc(0.25*100vh+100px)] pointer-events-none w-[150px] sm:w-[200px] md:w-[400px]"
-			src="/images/moto-stroke.svg"
-		/>
-	{:else}
-		<img
-			class="absolute left-[40px] md:top-[calc(0.25*100vh+200px)] md:top-[calc(0.25*100vh+200px)] top-[calc(0.25*100vh+100px)] pointer-events-none w-[150px] sm:w-[200px] md:w-[400px]"
-			src="/images/moto-black-stroke.svg"
-		/>
-	{/if} -->
-
-	{#if isDarkMode}
-		<img
-			class="absolute right-[40px] bottom-[100px] pointer-events-none w-[50px]"
-			src="/images/logo-multi.svg"
-		/>
-	{:else}
-		<img
-			class="absolute right-[40px] bottom-[100px] pointer-events-none w-[50px]"
-			src="/images/logo-multi-black.svg"
-		/>
-	{/if}
-</div>
 
 <style>
 	p {

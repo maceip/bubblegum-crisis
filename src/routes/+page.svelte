@@ -9,16 +9,12 @@
   import { useNavigate } from "svelte-navigator";
   const api = import.meta.env.VITE_HANKO_API;
 
-	register({
-  shadow: true,      // Set to false if you don't want the web component to be attached to the shadow DOM.
-  injectStyles: true // Set to false if you don't want to inject any default styles.
-})
-let element;
 
 let error: Error | null = null;
+let element;
 
 onMount(async () => {
-    register({ shadow: true, injectStyles: false}).catch((e) => error = e);
+    register({ shadow: true, injectStyles: true}).catch((e) => error = e);
     element?.addEventListener('hankoAuthSuccess', console.log("hi"));
   });
 
@@ -73,21 +69,19 @@ onMount(async () => {
 			{/if}
 		</button>
 	</div>
-	<div class="flex flex-col items-center justify-center">
-		<div class="mb-10 h-64 w-96">
-		  <LoginGraphic />
-		</div>
-		<hanko-auth api="https://backend-ap.tensical.com" lang="en" experimental="conditionalMediation"/>
-	  </div>
+
 	<div class="flex justify-center w-full h-full">
 		<HeaderScene {isDarkMode} />
 	</div>
 
 	<Grain />
-	<div class="content">
-		{#if error}
-		  <div class="error">{ error?.message }</div>
-		{/if}
-		<hanko-auth bind:this={element} {api}/>
+	<div class="flex flex-col items-center justify-center">
+			<div class="content">
+			{#if error}
+			  <div class="error">{ error?.message }</div>
+			{/if}
+		<hanko-auth lang="en" experimental="conditionalMediation" bind:this={element} api="https://backend-ap.tensical.com"/>
+	</div>
 	  </div>
+
 </div>
